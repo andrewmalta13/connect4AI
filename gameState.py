@@ -17,6 +17,7 @@ class gameState:
 		self.numTokens = 0
 		self.turn = PLAYERONE
 		self.heuristicValue = 0 #PLACEHOLDER VALUE
+		self.winCode = 0
 	def __str__(self):
 		retString = "\n\n\t"
 		for i in range(0 , BOARDWIDTH):
@@ -35,6 +36,7 @@ class gameState:
 	def insert(self,colNum):
 		if not isinstance( colNum, int ) or colNum > BOARDWIDTH:
 			print "Invalid column number"
+			return -1
 		if self.heights[colNum] == BOARDHEIGHT:
 			print "That column is full"
 			return -1
@@ -68,6 +70,7 @@ class gameState:
 					else:
 						counter = 0;
 					if counter == 4:
+						self.winCode = self.turn
 						return self.turn
 					currentPosition = map(operator.add,currentPosition,adjustPair)
 		return 0

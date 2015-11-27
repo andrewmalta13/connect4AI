@@ -1,18 +1,20 @@
-import gameState
+import gameTree
 gameOver = False
 
-board = gameState.gameState()
+ourGame = gameTree.gameTree()
 
 if __name__ == "__main__":
 	while(not gameOver):
-		nextMove = -1
-		retVal = -1
+		nextMove = None
 		while(nextMove < 0):
-			print board
-			nextMove = input("Player " + str(board.turn) + ": Which column would you like to play a token in? ")
-			retVal = board.insert(nextMove)
-		if retVal != 0:
-			gameOver = retVal
+			print ourGame.tree[ourGame.position]
+			nextMove = input("Player " + str(ourGame.tree[ourGame.position].turn) + ": Which column would you like to play a token in? ")
+			if ((nextMove < len(ourGame.tree[0].heights)) and (nextMove >= 0)):
+				ourGame.position = ourGame.getState(nextMove)
+			else:
+				print "Invalid move, please try again"
+		if ourGame.tree[ourGame.position].winCode != 0:
+			gameOver = ourGame.tree[ourGame.position].winCode
 			break
-	print board
+	print ourGame.tree[ourGame.position]
 	print "Game Over! Code: " + str(gameOver)
