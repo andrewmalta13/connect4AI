@@ -27,3 +27,22 @@ And the following methods:
 
 A game can be played by running "python gameMaster.py"
 
+
+gameTree.py
+
+A gameTree has the following attributes:
+	position 
+		the index in the dictionary where the current position is located
+
+	boardwidth 
+		currently constant, may change later if we implement that
+	tree 
+		the game tree. Contains all of the states accessed by getState. A state can be accessed by gameTree.tree[position]
+
+And the following methods:
+
+	getState(colNum)
+		checks the existence of the state (or creates the state) that starts at the current position and then has an insert in the column colNum. Returns the postion in the tree where the newly created state can be found. DOES NOT UPDATE THE CURRENT POSITION OF THE TREE
+
+	getPositionNum(curPos,colNum)
+		Given a position and a column number, will generate the position for that state. Just returns the integer, does nothing else.
