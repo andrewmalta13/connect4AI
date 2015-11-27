@@ -31,6 +31,7 @@ A game can be played by running "python gameMaster.py"
 gameTree.py
 
 A gameTree has the following attributes:
+
 	position 
 		the index in the dictionary where the current position is located
 
