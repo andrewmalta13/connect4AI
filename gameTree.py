@@ -1,13 +1,13 @@
 import gameState
 from copy import deepcopy
 
-BOARDWIDTH=7
+
 class gameTree:
-  def __init__(self):
+  def __init__(self,w=7,h=6):
     self.position = 0
-    self.boardWidth = BOARDWIDTH
+    self.boardWidth = int(w)
     self.tree = dict()
-    self.tree[0] = gameState.gameState()
+    self.tree[0] = gameState.gameState(int(w),int(h))
 
 
   def __str__(self):

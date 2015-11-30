@@ -3,19 +3,15 @@ import os
 PLAYERONE=1
 PLAYERTWO=-1
 NUMPLAYERS=2
-BOARDWIDTH=7
-BOARDHEIGHT=6
-WIDTHFlag=0
-HEIGHTFLAG=1
 CHECKARRAY=[[1,-1],[0,-1],[-1,-1],[-1,0]]
 
 class gameState:
 
-  def __init__(self):
-    self.boardWidth = BOARDWIDTH
-    self.boardHeight = BOARDHEIGHT
+  def __init__(self,w,h):
+    self.boardWidth = w
+    self.boardHeight = h
     self.board = [['E' for i in range(self.boardHeight)] for j in range(self.boardWidth)]
-    self.heights = [0] * BOARDWIDTH
+    self.heights = [0] * self.boardWidth
     self.numTokens = 0
     self.turn = PLAYERONE
     self.heuristicValue = 3
@@ -65,7 +61,7 @@ class gameState:
       currentPosition = map(operator.add,checkPosition,map(operator.mul,adjustPair,[-3,-3]))
       
       for val in range(7):
-        if currentPosition[0] < 0 or currentPosition[0] >= self.boardWidth or currentPosition[1] < 0 or currentPosition[1] >= BOARDHEIGHT:
+        if currentPosition[0] < 0 or currentPosition[0] >= self.boardWidth or currentPosition[1] < 0 or currentPosition[1] >= self.boardHeight:
           currentPosition = map(operator.add,currentPosition,adjustPair)
           continue
         else:
