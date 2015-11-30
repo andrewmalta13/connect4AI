@@ -8,8 +8,8 @@ class AiPlayer(object):
     def miniMax(self, state, depth, minim, maxim, areWeMaximizing):
         #base case
         if depth == 0: #do we also need to check if this is a leaf
-          # return state.heuristicValue
-          return int(random.random() * 1000) - 500
+          return state.heuristicValue
+          # return int(random.random() * 1000) - 500
         
         if areWeMaximizing:
             result = minim

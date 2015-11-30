@@ -14,7 +14,6 @@ class gameState:
     self.heights = [0] * self.boardWidth
     self.numTokens = 0
     self.turn = PLAYERONE
-    self.heuristicValue = 3
     self.winCode = 0
   def __str__(self):
     retString = "\n\n\t"

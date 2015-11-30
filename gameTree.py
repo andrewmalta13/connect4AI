@@ -1,5 +1,6 @@
 import gameState
 from copy import deepcopy
+from gameHeuristic import calculateHeuristic
 
 
 class gameTree:
@@ -24,9 +25,7 @@ class gameTree:
       newBoard.insert(colNum)
       # check win
       winVal = newBoard.checkWin
-      # evaluate heuristic
-      # TODO
-      # insert at position
+      newBoard.heuristicValue = calculateHeuristic(newBoard)
 
       ##TEMPORARY TESTING CODE#
       self.tree[childPos] = newBoard
