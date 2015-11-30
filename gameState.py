@@ -20,7 +20,7 @@ class gameState:
   def __init__(self,w,h):
     self.boardWidth = w
     self.boardHeight = h
-    self.board = [['E' for i in range(self.boardHeight)] for j in range(self.boardWidth)]
+    self.board = [[0 for i in range(self.boardHeight)] for j in range(self.boardWidth)]
     self.heights = [0] * self.boardWidth
     self.numTokens = 0
     self.playerOne=-1
@@ -91,7 +91,7 @@ class gameState:
 
   def generateString(self,value):
     if value == self.playerOne:
-      return bcolors.OKBLUE + '1' + bcolors.ENDC
+      return bcolors.OKBLUE + 'X' + bcolors.ENDC
     elif value == self.playerTwo:
-      return bcolors.FAIL + '2' + bcolors.ENDC
-    return bcolors.OKGREEN + str(value) + bcolors.ENDC
+      return bcolors.FAIL + 'O' + bcolors.ENDC
+    return bcolors.OKGREEN + '-' + bcolors.ENDC
