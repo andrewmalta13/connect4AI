@@ -47,11 +47,11 @@ class gameState:
   # returns 0 for success, the playernum of the winner, or a negative for an error
   def insert(self,colNum):
     if not isinstance( colNum, int ) or colNum > self.boardWidth:
-      print "Invalid column number"
-      return -1
+      #print "Invalid column number"
+      return -2
     if self.heights[colNum] == self.boardHeight:
-      print "That column is full"
-      return -1
+      #print "That column is full"
+      return -2
     rowNum = self.heights[colNum] 
     self.board[colNum][self.heights[colNum]] = self.turn
     self.heights[colNum] += 1

@@ -26,17 +26,21 @@ else:
     print "Invalid number of arguments"
     sys.exit(1)
 
-aiPlayer = aiplayer.AiPlayer(2, ourGame)
+aiPlayer = aiplayer.AiPlayer(1, ourGame)
 
 if __name__ == "__main__":
     while(not gameOver):
         if ourGame.tree[ourGame.position].turn == ourGame.tree[ourGame.position].playerOne:
             nextMove = None
+            print ourGame.tree[ourGame.position]
             while (nextMove < 0):
-                print ourGame.tree[ourGame.position]
-                nextMove = input("Player " + str(ourGame.tree[ourGame.position].turn) + ": Which column would you like to play a token in? ")
+                nextMove = input("Player: Which column would you like to play a token in? ")
                 if ((nextMove < len(ourGame.tree[0].heights)) and (nextMove >= 0)):
-                    ourGame.position = ourGame.getState(nextMove)
+                    newPos = ourGame.getState(nextMove)
+                    if newPos == ourGame.position:
+                        nextMove = -1
+                        print "Invalid move"
+                    ourGame.position = newPos
                 else:
                     print "Invalid move, please try again"
         else:
