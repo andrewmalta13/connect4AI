@@ -20,10 +20,14 @@ def calculateHeuristic(state):
             continue
 
         topToken = col[top]
+
+        # If we have a run of two
         if topToken == col[top - 1]:
-            if top > 1 and col[top - 2] == topToken:
+            # If we have a run of three and at least one space above it
+            if top > 1 and col[top - 2] == topToken and state.boardHeight - top > 1:
                 heuristic += RUN_OF_THREE_VALUE * topToken
-            else:
+            # If we have a run of two and at least two spaces above it
+            elif state.boardHeight - top > 2:
                 heuristic += RUN_OF_TWO_VALUE * topToken
 
     # Check for row runs
