@@ -1,7 +1,7 @@
 import operator
 import os
 PLAYERONE=1
-PLAYERTWO=2
+PLAYERTWO=-1
 NUMPLAYERS=2
 BOARDWIDTH=7
 BOARDHEIGHT=6
@@ -12,7 +12,9 @@ CHECKARRAY=[[1,-1],[0,-1],[-1,-1],[-1,0]]
 class gameState:
 
   def __init__(self):
-    self.board = [['E' for i in range(BOARDHEIGHT)] for j in range(BOARDWIDTH)]
+    self.boardWidth = BOARDWIDTH
+    self.boardHeight = BOARDHEIGHT
+    self.board = [['E' for i in range(self.boardHeight)] for j in range(self.boardWidth)]
     self.heights = [0] * BOARDWIDTH
     self.numTokens = 0
     self.turn = PLAYERONE
@@ -20,24 +22,26 @@ class gameState:
     self.winCode = 0
   def __str__(self):
     retString = "\n\n\t"
-    for i in range(0 , BOARDWIDTH):
+    for i in range(0 , self.boardWidth):
       retString += " " + str(i) + " "
     retString += "\n\t"
-    retString += "-" * BOARDWIDTH * 3
+    retString += "-" * self.boardWidth * 3
     retString += '\n\t'
-    for i in range(0,BOARDHEIGHT)[::-1]:
-      for j in range(0,BOARDWIDTH):
-        retString += " " + str(self.board[j][i]) + " "
+    for i in range(0,self.boardHeight)[::-1]:
+      for j in range(0,self.boardWidth):
+        val = self.board[j][i]
+        val = val if val == 1 or val == 'E' else 2
+        retString += " " + str(val) + " "
       retString += "\n\n\t"
     retString += '\n'
     os.system('cls' if os.name == 'nt' else 'clear')
     return retString
   # returns 0 for success, the playernum of the winner, or a negative for an error
   def insert(self,colNum):
-    if not isinstance( colNum, int ) or colNum > BOARDWIDTH:
+    if not isinstance( colNum, int ) or colNum > self.boardWidth:
       print "Invalid column number"
       return -1
-    if self.heights[colNum] == BOARDHEIGHT:
+    if self.heights[colNum] == self.boardHeight:
       print "That column is full"
       return -1
     rowNum = self.heights[colNum] 
@@ -45,7 +49,7 @@ class gameState:
     self.heights[colNum] += 1
     self.numTokens += 1;
     
-    if self.numTokens >= BOARDWIDTH * BOARDHEIGHT:
+    if self.numTokens >= self.boardWidth * self.boardHeight:
       return NUMPLAYERS + 1
 
 
@@ -61,7 +65,7 @@ class gameState:
       currentPosition = map(operator.add,checkPosition,map(operator.mul,adjustPair,[-3,-3]))
       
       for val in range(7):
-        if currentPosition[0] < 0 or currentPosition[0] >= BOARDWIDTH or currentPosition[1] < 0 or currentPosition[1] >= BOARDHEIGHT:
+        if currentPosition[0] < 0 or currentPosition[0] >= self.boardWidth or currentPosition[1] < 0 or currentPosition[1] >= BOARDHEIGHT:
           currentPosition = map(operator.add,currentPosition,adjustPair)
           continue
         else:
