@@ -4,15 +4,15 @@ NUMPLAYERS=2
 CHECKARRAY=[[1,-1],[0,-1],[-1,-1],[-1,0]]
 
 
-# class bcolors:
-#     HEADER = '\033[95m'
-#     OKBLUE = '\033[94m'
-#     OKGREEN = '\033[92m'
-#     WARNING = '\033[93m'
-#     FAIL = '\033[91m'
-#     ENDC = '\033[0m'
-#     BOLD = '\033[1m'
-#     UNDERLINE = '\033[4m'
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
 
 class gameState:
@@ -38,8 +38,8 @@ class gameState:
     for i in range(0,self.boardHeight)[::-1]:
       for j in range(0,self.boardWidth):
         val = self.board[j][i]
-        val = val if val == 1 or val == 'E' else 2
-        retString += " " + str(val) + " "
+        #val = 1 if val == self.playerOne or val == 'E' else 2
+        retString += " " + self.generateString(val) + " "
       retString += "\n\n\t"
     retString += '\n'
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -89,8 +89,9 @@ class gameState:
   def setValue(self,value):
     self.heuristicValue = value
 
-  # def generateString(value):
-  #   if value == playerOne:
-  #     return bcolors.OKBLUE + str(value) + bcolors.ENDC
-  #   elif value == playerTwo:
-  #     return bcolors.FAIL + str(value) + bcolors
+  def generateString(self,value):
+    if value == self.playerOne:
+      return bcolors.OKBLUE + '1' + bcolors.ENDC
+    elif value == self.playerTwo:
+      return bcolors.FAIL + '2' + bcolors.ENDC
+    return bcolors.OKGREEN + str(value) + bcolors.ENDC
