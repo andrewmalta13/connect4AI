@@ -1,5 +1,6 @@
 import operator
 import os
+from copy import deepcopy
 NUMPLAYERS=2
 CHECKARRAY=[[1,-1],[0,-1],[-1,-1],[-1,0]]
 
@@ -17,7 +18,7 @@ class bcolors:
 
 class gameState:
 
-  def __init__(self,w,h):
+  def __init__(self,w=7,h=6):
     self.boardWidth = w
     self.boardHeight = h
     self.board = [['E' for i in range(self.boardHeight)] for j in range(self.boardWidth)]
@@ -28,6 +29,7 @@ class gameState:
     self.turn = self.playerOne
     self.winCode = 0
     self.heuristicValue = 0
+    self.children = [None] * self.boardWidth
   def __str__(self):
     retString = "\n\n\t"
     for i in range(0 , self.boardWidth):
@@ -44,6 +46,14 @@ class gameState:
     retString += '\n'
     os.system('cls' if os.name == 'nt' else 'clear')
     return retString
+  def getState(self,colNum):
+    if self.children[colNum] is None:
+      newState = deepcopy(self)
+      err = newState.insert(colNum)
+      if err == -2:
+        return err
+      self.children[colNum] = newState
+    return self.children[colNum]
   # returns 0 for success, the playernum of the winner, or a negative for an error
   def insert(self,colNum):
     if not isinstance( colNum, int ) or colNum > self.boardWidth:

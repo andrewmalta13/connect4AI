@@ -1,4 +1,4 @@
-import gameTree
+import gameState
 import aiplayer
 import sys
 #from stack OverFlow
@@ -18,10 +18,10 @@ if numArgs == 3:
     if not validateInputs(sys.argv[1]) or not sys.argv[2]:
         print "Invalid argument"
         sys.exit(1)
-    ourGame = gameTree.gameTree(sys.argv[1],sys.argv[2])
+    ourGame = gameState.gameState(sys.argv[1],sys.argv[2])
 #no arguments
 elif numArgs == 1:
-    ourGame = gameTree.gameTree()
+    ourGame = gameState.gameState()
 else:
     print "Invalid number of arguments"
     sys.exit(1)
@@ -30,25 +30,26 @@ aiPlayer = aiplayer.AiPlayer(1, ourGame)
 
 if __name__ == "__main__":
     while(not gameOver):
-        if ourGame.tree[ourGame.position].turn == ourGame.tree[ourGame.position].playerOne:
+        if ourGame.turn == ourGame.playerOne:
             nextMove = None
-            print ourGame.tree[ourGame.position]
+            print ourGame
             while (nextMove < 0):
                 nextMove = input("Player: Which column would you like to play a token in? ")
-                if ((nextMove < len(ourGame.tree[0].heights)) and (nextMove >= 0)):
-                    newPos = ourGame.getState(nextMove)
-                    if newPos == ourGame.position:
+                if ((nextMove < len(ourGame.heights)) and (nextMove >= 0)):
+                    errCheck = ourGame.getState(nextMove)
+                    if errCheck == -2:
                         nextMove = -1
                         print "Invalid move"
-                    ourGame.position = newPos
+                    else:
+                        ourGame = errCheck
                 else:
                     print "Invalid move, please try again"
         else:
-            ourGame.position = ourGame.getState(aiPlayer.makeMove())
+            ourGame = ourGame.getState(aiPlayer.makeMove())
 
-        if ourGame.tree[ourGame.position].winCode != 0:
-            gameOver = ourGame.tree[ourGame.position].winCode
+        if ourGame.winCode != 0:
+            gameOver = ourGame.winCode
             break
-    print ourGame.tree[ourGame.position]
+    print ourGame
     print "Game Over! Code: " + str(gameOver)
 
