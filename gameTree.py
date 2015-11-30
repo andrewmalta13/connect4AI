@@ -11,9 +11,9 @@ class gameTree:
     self.tree[0] = gameState.gameState(int(w),int(h))
 
 
-  def __str__(self):
-    print self.tree[self.position]
-    print "Currently at position: ", self.position
+  # def __str__(self):
+  #   print "Currently at position: ", self.position
+  #   return str(self.tree[self.position])
 
   def getState(self,colNum):
     childPos = self.getPositionNum(self.position,colNum)
@@ -22,10 +22,13 @@ class gameTree:
       newBoard = deepcopy(self.tree[self.position])
 
       # peform an insert
-      newBoard.insert(colNum)
+      insertResult = newBoard.insert(colNum)
+      if insertResult == -2:
+        return self.position
       # check win
       winVal = newBoard.checkWin
       newBoard.heuristicValue = calculateHeuristic(newBoard)
+
 
       ##TEMPORARY TESTING CODE#
       self.tree[childPos] = newBoard
