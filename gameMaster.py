@@ -25,11 +25,12 @@ elif numArgs == 1:
 else:
     print "Invalid number of arguments"
     sys.exit(1)
+
 aiPlayer = aiplayer.AiPlayer(2, ourGame)
 
 if __name__ == "__main__":
     while(not gameOver):
-        if ourGame.tree[ourGame.position].turn == 1:
+        if ourGame.tree[ourGame.position].turn == ourGame.tree[ourGame.position].playerOne:
             nextMove = None
             while (nextMove < 0):
                 print ourGame.tree[ourGame.position]

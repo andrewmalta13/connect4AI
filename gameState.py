@@ -1,9 +1,19 @@
 import operator
 import os
-PLAYERONE=1
-PLAYERTWO=-1
 NUMPLAYERS=2
 CHECKARRAY=[[1,-1],[0,-1],[-1,-1],[-1,0]]
+
+
+# class bcolors:
+#     HEADER = '\033[95m'
+#     OKBLUE = '\033[94m'
+#     OKGREEN = '\033[92m'
+#     WARNING = '\033[93m'
+#     FAIL = '\033[91m'
+#     ENDC = '\033[0m'
+#     BOLD = '\033[1m'
+#     UNDERLINE = '\033[4m'
+
 
 class gameState:
 
@@ -13,8 +23,11 @@ class gameState:
     self.board = [['E' for i in range(self.boardHeight)] for j in range(self.boardWidth)]
     self.heights = [0] * self.boardWidth
     self.numTokens = 0
-    self.turn = PLAYERONE
+    self.playerOne=-1
+    self.playerTwo=1
+    self.turn = self.playerOne
     self.winCode = 0
+    self.heuristicValue = 0
   def __str__(self):
     retString = "\n\n\t"
     for i in range(0 , self.boardWidth):
@@ -49,7 +62,7 @@ class gameState:
 
 
     winVal = self.checkWin([colNum,rowNum])
-    self.turn = PLAYERTWO if self.turn == PLAYERONE else PLAYERONE
+    self.turn = self.playerTwo if self.turn == self.playerOne else self.playerOne
 
     return winVal
 
@@ -76,3 +89,8 @@ class gameState:
   def setValue(self,value):
     self.heuristicValue = value
 
+  # def generateString(value):
+  #   if value == playerOne:
+  #     return bcolors.OKBLUE + str(value) + bcolors.ENDC
+  #   elif value == playerTwo:
+  #     return bcolors.FAIL + str(value) + bcolors
