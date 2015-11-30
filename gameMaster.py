@@ -26,7 +26,7 @@ else:
     print "Invalid number of arguments"
     sys.exit(1)
 
-aiPlayer = aiplayer.AiPlayer(1, ourGame)
+aiPlayer = aiplayer.AiPlayer(1)
 
 if __name__ == "__main__":
     while(not gameOver):
@@ -45,7 +45,7 @@ if __name__ == "__main__":
                 else:
                     print "Invalid move, please try again"
         else:
-            ourGame = ourGame.getState(aiPlayer.makeMove())
+            ourGame = ourGame.getState(aiPlayer.makeMove(ourGame))
 
         if ourGame.winCode != 0:
             gameOver = ourGame.winCode

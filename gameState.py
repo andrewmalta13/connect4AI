@@ -1,6 +1,7 @@
 import operator
 import os
 from copy import deepcopy
+from gameHeuristic import calculateHeuristic
 NUMPLAYERS=2
 CHECKARRAY=[[1,-1],[0,-1],[-1,-1],[-1,0]]
 
@@ -72,6 +73,8 @@ class gameState:
 
 
     winVal = self.checkWin([colNum,rowNum])
+    self.heuristicValue = calculateHeuristic(self)
+    print self.heuristicValue
     self.turn = self.playerTwo if self.turn == self.playerOne else self.playerOne
 
     return winVal
