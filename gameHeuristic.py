@@ -1,5 +1,5 @@
 RUN_OF_TWO_VALUE = 1
-RUN_OF_THREE_VALUE = 5
+RUN_OF_THREE_VALUE = 2
 WIN_VALUE = float('inf')
 
 def calculateHeuristic(state):
@@ -25,5 +25,27 @@ def calculateHeuristic(state):
                 heuristic += RUN_OF_THREE_VALUE * topToken
             else:
                 heuristic += RUN_OF_TWO_VALUE * topToken
+
+    # Check for row runs
+    # For every cluster of 4 where a win is eventually possible
+    # Add appropriate value if there are 2 or 3 tokens present
+    for rowNumber in range(min(state.heights) - 1, max(state.heights)):
+        row = map(lambda col: col[rowNumber], state.board)
+
+        for i in range(state.boardWidth - 3):
+            cluster = row[i:i+4]
+            playerOneCount = cluster.count(state.playerOne)
+            playerTwoCount = cluster.count(state.playerTwo)
+
+            # If one player is the only one in the cluster, a win is possible
+            if (playerOneCount == 0 or playerTwoCount == 0):
+                count = playerOneCount + playerTwoCount # The count is whichever is not 0
+                playerInCluster = state.playerOne if playerOneCount else state.playerTwo
+
+                if count == 2:
+                    heuristic += RUN_OF_TWO_VALUE * playerInCluster
+                if count == 3:
+                    heuristic += RUN_OF_THREE_VALUE * playerInCluster
+
 
     return heuristic
