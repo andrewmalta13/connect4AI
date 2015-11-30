@@ -1,5 +1,6 @@
 import gameState
 from copy import deepcopy
+
 BOARDWIDTH=7
 class gameTree:
   def __init__(self):
@@ -26,6 +27,8 @@ class gameTree:
       # evaluate heuristic
       # TODO
       # insert at position
+
+      ##TEMPORARY TESTING CODE#
       self.tree[childPos] = newBoard
     return childPos
 

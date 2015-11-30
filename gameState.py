@@ -1,6 +1,5 @@
 import operator
 import os
-
 PLAYERONE=1
 PLAYERTWO=2
 NUMPLAYERS=2
@@ -17,7 +16,7 @@ class gameState:
     self.heights = [0] * BOARDWIDTH
     self.numTokens = 0
     self.turn = PLAYERONE
-    self.heuristicValue = 0 #PLACEHOLDER VALUE
+    self.heuristicValue = 3
     self.winCode = 0
   def __str__(self):
     retString = "\n\n\t"
