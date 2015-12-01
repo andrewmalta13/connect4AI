@@ -1,20 +1,17 @@
 import random
 
 
-DEPTH_SCALAR = 10
-
 def miniMax(gameState, depth, minim, maxim, areWeMaximizing):
     #base case
-    if depth == 0: #do we also need to check if this is a leaf
+    if depth == 0:
         return gameState.heuristicValue
-        # return int(random.random() * 1000) - 500
     
     if areWeMaximizing:
         result = minim
         for i in range(gameState.boardWidth):
             if gameState.heights[i] < gameState.boardHeight:
                 newState = gameState.getState(i)
-                temp = (DEPTH_SCALAR * depth) * miniMax(newState, depth - 1, result, maxim, (not areWeMaximizing))
+                temp = miniMax(newState, depth - 1, result, maxim, (not areWeMaximizing))
                 if temp > result:
                     result = temp
                 if result > maxim:
@@ -26,12 +23,25 @@ def miniMax(gameState, depth, minim, maxim, areWeMaximizing):
             if gameState.heights[i] < gameState.boardHeight:
                 newState = gameState.getState(i)
                 # print newState
-                temp = (DEPTH_SCALAR * depth) * miniMax(newState, depth - 1, minim, result, (not areWeMaximizing))
+                temp = miniMax(newState, depth - 1, minim, result, (not areWeMaximizing))
                 if temp < result:
                     result = temp
                 if result < minim:
                     return minim
         return result
+
+def breakTies(gameState, moveVals):
+  maxVal = max(moveVals)
+  possibleChoices = []
+  for i in range(len(moveVals)):
+      if moveVals[i] == maxVal:
+          #if this move results in a win. Take it
+          if gameState.getState(i).heuristicValue == 100:
+              return i
+          possibleChoices.append(i)
+
+  return possibleChoices[int(random.random() * len(possibleChoices))]
+
 
 class AiPlayer(object):
     def __init__(self, depthToSearch, debug):
@@ -48,12 +58,5 @@ class AiPlayer(object):
             print moveVals
             print "Chose %d" % moveVals.index(max(moveVals))
         
-        maxVal = max(moveVals)
-        possibleChoices = []
-        for i in range(len(moveVals)):
-            if moveVals[i] == maxVal:
-               possibleChoices.append(i)
-        
-        print moveVals
-        return possibleChoices[int(random.random() * len(possibleChoices))]
+        return breakTies(gameState, moveVals)
         
