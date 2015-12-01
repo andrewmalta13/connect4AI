@@ -33,13 +33,18 @@ def miniMax(gameState, depth, minim, maxim, areWeMaximizing):
         return result
 
 class AiPlayer(object):
-    def __init__(self, depthToSearch):
+    def __init__(self, depthToSearch, debug):
         self.depthToSearch = depthToSearch
+        self.debug = debug
 
     def makeMove(self, gameState):
         moveVals = [float("-inf")] * gameState.boardWidth
         for i in range(gameState.boardWidth):
             if gameState.heights[i] < gameState.boardHeight:
                 moveVals[i] = miniMax(gameState.getState(i), self.depthToSearch - 1, float("-inf"), float("inf"), False)
+
+        if self.debug:
+            print moveVals
+            print "Chose %d" % moveVals.index(max(moveVals))
 
         return moveVals.index(max(moveVals))

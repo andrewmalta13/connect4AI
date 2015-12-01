@@ -1,32 +1,18 @@
 import gameState
 import aiplayer
 import sys
-#from stack OverFlow
-def validateInputs(val):
-    try: 
-        int(val)
-        return True
-    except ValueError:
-        return False
+import argparse
 
 # setup with command arguments
-gameOver = False
-numArgs = len(sys.argv)
-ourGame = 0
-#specified height,width
-if numArgs == 3:
-    if not validateInputs(sys.argv[1]) or not sys.argv[2]:
-        print "Invalid argument"
-        sys.exit(1)
-    ourGame = gameState.gameState(sys.argv[1],sys.argv[2])
-#no arguments
-elif numArgs == 1:
-    ourGame = gameState.gameState()
-else:
-    print "Invalid number of arguments"
-    sys.exit(1)
+parser = argparse.ArgumentParser()
+parser.add_argument("--width", type=int, choices=range(4,10), default=7, help="board width")
+parser.add_argument("--height", type=int, choices=range(4,10), default=6, help="board height")
+parser.add_argument("--debug", action="store_true", help="print additional information for debugging")
+args = parser.parse_args()
 
-aiPlayer = aiplayer.AiPlayer(5)
+gameOver = False
+ourGame = gameState.gameState(args.width, args.height)
+aiPlayer = aiplayer.AiPlayer(4, args.debug)
 
 if __name__ == "__main__":
     while(not gameOver):
