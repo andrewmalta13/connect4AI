@@ -53,10 +53,11 @@ class AiPlayer(object):
         for i in range(gameState.boardWidth):
             if gameState.heights[i] < gameState.boardHeight:
                 moveVals[i] = miniMax(gameState.getState(i), self.depthToSearch - 1, float("-inf"), float("inf"), False)
-
+        
+        choice = breakTies(gameState, moveVals)
         if self.debug:
             print moveVals
-            print "Chose %d" % moveVals.index(max(moveVals))
+            print "Chose %d" % choice
         
-        return breakTies(gameState, moveVals)
+        return choice
         
