@@ -1,7 +1,5 @@
 import random
 
-
-
 def miniMax(gameState, depth, minim, maxim, areWeMaximizing):
     #base case
     if depth == 0: #do we also need to check if this is a leaf
