@@ -26,7 +26,7 @@ else:
     print "Invalid number of arguments"
     sys.exit(1)
 
-aiPlayer = aiplayer.AiPlayer(1)
+aiPlayer = aiplayer.AiPlayer(6)
 
 if __name__ == "__main__":
     while(not gameOver):
@@ -37,7 +37,7 @@ if __name__ == "__main__":
                 nextMove = input("Player: Which column would you like to play a token in? ")
                 if ((nextMove < len(ourGame.heights)) and (nextMove >= 0)):
                     errCheck = ourGame.getState(nextMove)
-                    if errCheck == -2:
+                    if not isinstance(errCheck, gameState.gameState):
                         nextMove = -1
                         print "Invalid move"
                     else:

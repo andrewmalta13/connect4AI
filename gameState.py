@@ -1,6 +1,6 @@
 import operator
 import os
-from copy import deepcopy
+import copy
 from gameHeuristic import calculateHeuristic
 NUMPLAYERS=2
 CHECKARRAY=[[1,-1],[0,-1],[-1,-1],[-1,0]]
@@ -49,14 +49,17 @@ class gameState:
     return retString
   def getState(self,colNum):
     if self.children[colNum] is None:
-      newState = deepcopy(self)
+      newState = copy.copy(self)
+      newState.board = copy.deepcopy(self.board)
+      newState.heights = copy.copy(self.heights)
+      newState.children = [None] * self.boardWidth
       err = newState.insert(colNum)
       if err == -2:
         return err
       self.children[colNum] = newState
     return self.children[colNum]
   # returns 0 for success, the playernum of the winner, or a negative for an error
-  def insert(self,colNum):
+  def insert(self, colNum):
     if not isinstance( colNum, int ) or colNum > self.boardWidth:
       #print "Invalid column number"
       return -2
@@ -74,7 +77,6 @@ class gameState:
 
     winVal = self.checkWin([colNum,rowNum])
     self.heuristicValue = calculateHeuristic(self)
-    print self.heuristicValue
     self.turn = self.playerTwo if self.turn == self.playerOne else self.playerOne
 
     return winVal
