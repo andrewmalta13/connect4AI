@@ -13,13 +13,15 @@ args = parser.parse_args()
 gameOver = False
 ourGame = gameState.gameState(args.width, args.height)
 aiPlayer = aiplayer.AiPlayer(4, args.debug)
-
+aiLastMove = None
 if __name__ == "__main__":
     while(not gameOver):
         print ourGame
         if ourGame.turn == ourGame.playerOne:
             nextMove = None
             while (nextMove < 0):
+                if aiLastMove is not None:
+                    print "AI played", aiLastMove
                 nextMove = input("Player: Which column would you like to play a token in? ")
                 if ((nextMove < len(ourGame.heights)) and (nextMove >= 0)):
                     errCheck = ourGame.getState(nextMove)
@@ -32,11 +34,17 @@ if __name__ == "__main__":
                     print "Invalid move, please try again"
         else:
             print "AI is thinking ..."
-            ourGame = ourGame.getState(aiPlayer.makeMove(ourGame))
+            aiLastMove = aiPlayer.makeMove(ourGame)
+            ourGame = ourGame.getState(aiLastMove)
 
         if ourGame.winCode != 0:
             gameOver = ourGame.winCode
             break
     print ourGame
-    print "Game Over! Code: " + str(gameOver)
+    if gameOver == ourGame.playerOne:
+        print "Nice work! You won!"
+    elif gameOver == ourGame.playerTwo:
+        print "The AI beat you! Try again"
+    else:
+        print "Game Over! Code: " + str(gameOver)
 
