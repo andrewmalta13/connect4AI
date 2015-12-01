@@ -1,5 +1,5 @@
 import random
-
+import gameHeurisitic
 
 def miniMax(gameState, depth, minim, maxim, areWeMaximizing):
     #base case
@@ -36,7 +36,7 @@ def breakTies(gameState, moveVals):
   for i in range(len(moveVals)):
       if moveVals[i] == maxVal:
           #if this move results in a win. Take it
-          if gameState.getState(i).heuristicValue == 100:
+          if gameState.getState(i).heuristicValue == gameHeurisitic.WIN_VAL:
               return i
           possibleChoices.append(i)
 
