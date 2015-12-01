@@ -27,6 +27,7 @@ class gameState:
         self.numTokens = 0
         self.playerOne=-1
         self.playerTwo=1
+        self.numPlayers = NUMPLAYERS
         self.turn = self.playerOne
         self.winCode = 0
         self.heuristicValue = 0
@@ -54,7 +55,7 @@ class gameState:
             newState.heights = copy.copy(self.heights)
             newState.children = [None] * self.boardWidth
             err = newState.insert(colNum)
-            if err == -2:
+            if err is -2 or err is self.numPlayers + 1:
                 return err
             self.children[colNum] = newState
         return self.children[colNum]
@@ -72,7 +73,7 @@ class gameState:
         self.numTokens += 1;
         
         if self.numTokens >= self.boardWidth * self.boardHeight:
-            return NUMPLAYERS + 1
+            return self.numPlayers + 1
 
 
         winVal = self.checkWin([colNum,rowNum])

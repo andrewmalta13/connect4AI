@@ -26,6 +26,9 @@ if __name__ == "__main__":
                 if ((nextMove < len(ourGame.heights)) and (nextMove >= 0)):
                     errCheck = ourGame.getState(nextMove)
                     if not isinstance(errCheck, gameState.gameState):
+                        if errCheck == ourGame.numPlayers + 1:
+                            print "Board is full. Draw!"
+                            sys.exit(1)
                         nextMove = -1
                         print "Invalid move"
                     else:
