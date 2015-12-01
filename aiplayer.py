@@ -1,5 +1,8 @@
 import random
 
+
+DEPTH_SCALAR = 3
+
 def miniMax(gameState, depth, minim, maxim, areWeMaximizing):
     #base case
     if depth == 0: #do we also need to check if this is a leaf
@@ -11,7 +14,7 @@ def miniMax(gameState, depth, minim, maxim, areWeMaximizing):
         for i in range(gameState.boardWidth):
             if gameState.heights[i] < gameState.boardHeight:
                 newState = gameState.getState(i)
-                temp = miniMax(newState, depth - 1, result, maxim, (not areWeMaximizing))
+                temp = (DEPTH_SCALAR * depth) * miniMax(newState, depth - 1, result, maxim, (not areWeMaximizing))
                 if temp > result:
                     result = temp
                 if result > maxim:
@@ -23,7 +26,7 @@ def miniMax(gameState, depth, minim, maxim, areWeMaximizing):
             if gameState.heights[i] < gameState.boardHeight:
                 newState = gameState.getState(i)
                 # print newState
-                temp = miniMax(newState, depth - 1, minim, result, (not areWeMaximizing))
+                temp = (DEPTH_SCALAR * depth) * miniMax(newState, depth - 1, minim, result, (not areWeMaximizing))
                 if temp < result:
                     result = temp
                 if result < minim:
@@ -44,5 +47,12 @@ class AiPlayer(object):
         if self.debug:
             print moveVals
             print "Chose %d" % moveVals.index(max(moveVals))
-
-        return moveVals.index(max(moveVals))
+        
+        maxVal = max(moveVals)
+        possibleChoices = []
+        for i in range(len(moveVals)):
+            if moveVals[i] == maxVal:
+               possibleChoices.append(i)
+        
+        return possibleChoices[int(random.random() * len(possibleChoices))]
+        
