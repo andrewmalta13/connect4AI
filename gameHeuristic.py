@@ -1,6 +1,6 @@
 RUN_OF_TWO_VALUE = 1
 RUN_OF_THREE_VALUE = 2
-WIN_VALUE = 1000
+WIN_VALUE = 100
 
 def calculateHeuristic(state):
     # We start off with a heuristic value of 0

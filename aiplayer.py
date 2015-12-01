@@ -1,7 +1,7 @@
 import random
 
 
-DEPTH_SCALAR = 3
+DEPTH_SCALAR = 10
 
 def miniMax(gameState, depth, minim, maxim, areWeMaximizing):
     #base case
@@ -54,5 +54,6 @@ class AiPlayer(object):
             if moveVals[i] == maxVal:
                possibleChoices.append(i)
         
+        print moveVals
         return possibleChoices[int(random.random() * len(possibleChoices))]
         
