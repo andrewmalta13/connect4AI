@@ -34,7 +34,7 @@ def breakTies(gameState, moveVals):
   maxVal = max(moveVals)
   possibleChoices = []
   for i in range(len(moveVals)):
-      if moveVals[i] == maxVal:
+      if (moveVals[i] == maxVal) and (gameState.heights[i] < gameState.boardHeight):
           #if this move results in a win. Take it
           if gameState.getState(i).heuristicValue == gameHeuristic.WIN_VALUE:
               return i
