@@ -37,6 +37,7 @@ def menu():
             sys.exit(1)
         else:
             print "Invalid option"
+
 def playGame(w=7,h=6):
     gameOver = False
     ourGame = gameState.gameState(w, h)
@@ -53,6 +54,14 @@ def playGame(w=7,h=6):
                 if args.debug and nextMove is -1:
                     print "Dev Exit"
                     return
+                if args.debug and nextMove is -2:
+                    print "Game will be set to selected state"
+                    testGame = ourGame.importBoard()
+                    if testGame is None:
+                        print "Import Failed"
+                    else:
+                        ourGame = testGame
+                        continue
                 if ((nextMove < len(ourGame.heights)) and (nextMove >= 0)):
                     errCheck = ourGame.getState(nextMove)
                     if not isinstance(errCheck, gameState.gameState):
@@ -69,7 +78,8 @@ def playGame(w=7,h=6):
             print "AI is thinking ..."
             aiLastMove = aiPlayer.makeMove(ourGame)
             ourGame = ourGame.getState(aiLastMove)
-
+        if args.debug:
+            ourGame.exportBoard()
         if ourGame.winCode != 0:
             gameOver = ourGame.winCode
             break
