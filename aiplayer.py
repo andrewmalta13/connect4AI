@@ -4,7 +4,7 @@ import gameHeuristic
 
 def miniMax(gameState, depth, minim, maxim, areWeMaximizing):
     #base case
-    if depth == 0 or gameState.checkTie() or abs(gameState.heuristicValue == gameHeuristic.WIN_VALUE):
+    if depth == 0 or gameState.checkTie() or abs(gameState.heuristicValue) == gameHeuristic.WIN_VALUE:
         return gameState.heuristicValue
     
     if areWeMaximizing:
