@@ -3,6 +3,7 @@ import aiplayer
 import sys
 import argparse
 import os
+from math import *
 
 # setup with command arguments
 parser = argparse.ArgumentParser()
@@ -39,7 +40,7 @@ def menu():
 def playGame(w=7,h=6):
     gameOver = False
     ourGame = gameState.gameState(w, h)
-    aiPlayer = aiplayer.AiPlayer(4, args.debug)
+    aiPlayer = aiplayer.AiPlayer(int(9 / log(w)), args.debug)
     aiLastMove = None
     while(not gameOver and not ourGame.checkTie()):
         print ourGame
