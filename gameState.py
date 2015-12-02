@@ -7,11 +7,11 @@ CHECKARRAY=[[1,-1],[0,-1],[-1,-1],[-1,0]]
 
 
 class bcolors:
-        HEADER = '\033[95m'
-        OKBLUE = '\033[94m'
-        OKGREEN = '\033[92m'
-        WARNING = '\033[93m'
-        FAIL = '\033[91m'
+        PURPLE = '\033[95m'
+        BLUE = '\033[94m'
+        GREEN = '\033[92m'
+        YELLOW = '\033[93m'
+        RED = '\033[91m'
         ENDC = '\033[0m'
         BOLD = '\033[1m'
         UNDERLINE = '\033[4m'
@@ -42,7 +42,6 @@ class gameState:
         for i in range(0,self.boardHeight)[::-1]:
             for j in range(0,self.boardWidth):
                 val = self.board[j][i]
-                #val = 1 if val == self.playerOne or val == 'E' else 2
                 retString += " " + self.generateString(val) + " "
             retString += "\n\n\t"
         retString += '\n'
@@ -107,7 +106,7 @@ class gameState:
 
     def generateString(self,value):
         if value == self.playerOne:
-            return bcolors.OKBLUE + 'X' + bcolors.ENDC
+            return bcolors.BLUE + 'X' + bcolors.ENDC
         elif value == self.playerTwo:
-            return bcolors.FAIL + 'O' + bcolors.ENDC
-        return bcolors.OKGREEN + '-' + bcolors.ENDC
+            return bcolors.RED + 'O' + bcolors.ENDC
+        return bcolors.GREEN + '-' + bcolors.ENDC
