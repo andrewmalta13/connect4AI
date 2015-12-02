@@ -1,9 +1,10 @@
 import random
 import gameHeuristic
 
+
 def miniMax(gameState, depth, minim, maxim, areWeMaximizing):
     #base case
-    if depth == 0:
+    if depth == 0 or gameState.checkTie():
         return gameState.heuristicValue
     
     if areWeMaximizing:

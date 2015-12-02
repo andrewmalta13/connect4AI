@@ -66,13 +66,14 @@ class gameState:
         if self.heights[colNum] == self.boardHeight:
             #print "That column is full"
             return -2
+        if self.numTokens >= self.boardWidth * self.boardHeight:
+            return self.numPlayers + 1
         rowNum = self.heights[colNum] 
         self.board[colNum][self.heights[colNum]] = self.turn
         self.heights[colNum] += 1
         self.numTokens += 1;
         
-        if self.numTokens >= self.boardWidth * self.boardHeight:
-            return self.numPlayers + 1
+        
 
 
         winVal = self.checkWin([colNum,rowNum])
@@ -82,7 +83,6 @@ class gameState:
         return winVal
 
     def checkWin(self,checkPosition):
-
         for adjustPair in CHECKARRAY:
             counter = 0
             currentPosition = map(operator.add,checkPosition,map(operator.mul,adjustPair,[-3,-3]))
@@ -101,6 +101,13 @@ class gameState:
                         return self.turn
                     currentPosition = map(operator.add,currentPosition,adjustPair)
         return 0
+
+    def checkTie(self):
+        for height in self.heights:
+            if height != self.boardHeight:
+                return False
+        return True
+
     def setValue(self,value):
         self.heuristicValue = value
 
