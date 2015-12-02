@@ -15,7 +15,7 @@ ourGame = gameState.gameState(args.width, args.height)
 aiPlayer = aiplayer.AiPlayer(4, args.debug)
 aiLastMove = None
 if __name__ == "__main__":
-    while(not gameOver):
+    while(not gameOver and not ourGame.checkTie()):
         print ourGame
         if ourGame.turn == ourGame.playerOne:
             nextMove = None
@@ -49,5 +49,5 @@ if __name__ == "__main__":
     elif gameOver == ourGame.playerTwo:
         print "The AI beat you! Try again"
     else:
-        print "Game Over! Code: " + str(gameOver)
+        print "Game was a tie!"
 
