@@ -1,6 +1,8 @@
 import operator
 import os
 import copy
+import pickle
+import datetime
 from gameHeuristic import calculateHeuristic
 NUMPLAYERS=2
 CHECKARRAY=[[1,-1],[0,-1],[-1,-1],[-1,0]]
@@ -32,6 +34,7 @@ class gameState:
         self.winCode = 0
         self.heuristicValue = 0
         self.children = [None] * self.boardWidth
+        self.exportName = None
     def __str__(self):
         retString = "\n\n\t"
         for i in range(0 , self.boardWidth):
@@ -118,3 +121,26 @@ class gameState:
         elif value == self.playerTwo:
             return bcolors.RED + 'O' + bcolors.ENDC
         return bcolors.GREEN + '-' + bcolors.ENDC
+
+    def exportBoard(self):
+        if self.exportName is None:
+            self.exportName = raw_input("What would you like to name your log file?\n") + ".4log"
+        f = open(self.exportName,'a')
+        pickle.dump(self,f)
+    def importBoard(self):
+        thisBoard = None
+        correctState = 0
+        fileName = raw_input("What is the name of the file?")
+        f = open(fileName,'r')
+        while correctState is 0:
+            try:
+                thisBoard = pickle.load(f)
+            except EOFError:
+                print "No more gameStates in this file"
+                print "returning None"
+                return None
+            print thisBoard
+            correctState = input("Is this the state you want?\n 1 for yes, 0 for no\n")
+        thisBoard.children = [None] * thisBoard.boardWidth
+        thisBoard.exportName = None
+        return thisBoard
