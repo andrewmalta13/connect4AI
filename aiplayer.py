@@ -4,7 +4,7 @@ import gameHeuristic
 
 def miniMax(gameState, depth, minim, maxim, areWeMaximizing):
     #base case
-    if depth == 0 or gameState.checkTie() or abs(gameState.heuristicValue) == gameHeuristic.WIN_VALUE:
+    if depth == 0 or gameState.checkTie() or abs(gameState.heuristicValue) == gameHeuristic.Heuristic.winVal:
         return gameState.heuristicValue
     
     if areWeMaximizing:
@@ -37,12 +37,12 @@ def breakTies(gameState, moveVals):
         if (moveVals[i] == maxVal) and (gameState.heights[i] < gameState.boardHeight):
             #if this move results in a win. Take it
             newState = gameState.getState(i)
-            if newState.heuristicValue == gameHeuristic.WIN_VALUE:
+            if newState.heuristicValue == gameHeuristic.Heuristic.winVal:
                 return i
 
             for j in range(len(moveVals)):
                 if (newState.heights[j] < newState.boardHeight 
-                    and abs(newState.getState(j).heuristicValue) != gameHeuristic.WIN_VALUE):
+                    and abs(newState.getState(j).heuristicValue) != gameHeuristic.Heuristic.winVal):
                     possibleChoices.append(i)
   
     if possibleChoices == []:
@@ -52,9 +52,10 @@ def breakTies(gameState, moveVals):
 
 
 class AiPlayer(object):
-    def __init__(self, depthToSearch, debug):
+    def __init__(self, depthToSearch, debug, explain):
         self.depthToSearch = depthToSearch
         self.debug = debug
+        self.explain = explain
 
     def makeMove(self, gameState):
         moveVals = [float("-inf")] * gameState.boardWidth

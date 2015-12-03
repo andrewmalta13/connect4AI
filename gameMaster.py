@@ -10,6 +10,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--width", type=int, choices=range(4,10), default=7, help="board width")
 parser.add_argument("--height", type=int, choices=range(4,10), default=6, help="board height")
 parser.add_argument("--debug", action="store_true", help="print additional information for debugging")
+parser.add_argument("--explain", action="store_true", help="explain AI decisions")
 args = parser.parse_args()
 
 
@@ -40,7 +41,7 @@ def menu():
 def playGame(w=7,h=6):
     gameOver = False
     ourGame = gameState.gameState(w, h)
-    aiPlayer = aiplayer.AiPlayer(int(9 / log(w)), args.debug)
+    aiPlayer = aiplayer.AiPlayer(int(9 / log(w)), args.debug, args.explain)
     aiLastMove = None
     while(not gameOver and not ourGame.checkTie()):
         print ourGame
@@ -49,6 +50,10 @@ def playGame(w=7,h=6):
             while (nextMove < 0):
                 if aiLastMove is not None:
                     print "AI played", aiLastMove
+
+                    if aiPlayer.explain:
+                        print ourGame.heuristic.explain(1)
+                        
                 nextMove = input("Player: Which column would you like to play a token in? ")
                 if args.debug and nextMove is -1:
                     print "Dev Exit"

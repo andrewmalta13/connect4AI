@@ -77,7 +77,8 @@ class gameState:
 
 
         winVal = self.checkWin([colNum,rowNum])
-        self.heuristicValue = calculateHeuristic(self)
+        self.heuristic = calculateHeuristic(self)
+        self.heuristicValue = self.heuristic.value()
         self.turn = self.playerTwo if self.turn == self.playerOne else self.playerOne
 
         return winVal
