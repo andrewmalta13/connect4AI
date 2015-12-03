@@ -5,18 +5,29 @@ class Heuristic():
     winVal = 100
 
     def __init__(self, state):
-        # A run is given in the format (int # of tokens, string direction)
-        self.playerOneRuns = []
-        self.playerTwoRuns = []
+        # A run has a # of tokens, a direction, and an occurrence count
+        def initRunArr():
+            arr = []
+            for i in [3, 2]: # We go backwards so that runs of three are listed out first when explaining
+                for dir in ['horizontal', 'vertical', 'diagonal']:
+                    arr.append({'tokens': i, 'dir': dir, 'count': 0})
+            return arr
+
+        self.playerOneRuns = initRunArr()
+        self.playerTwoRuns = initRunArr()
 
         self.winCode = state.winCode
         self.playerOne = state.playerOne
         self.playerTwo = state.playerTwo
 
     # Add a run to the heuristic for a particular player
-    def addRun(self, player, run):
+    def addRun(self, player, tokens, dir):
         runArr = self.playerOneRuns if player == self.playerOne else self.playerTwoRuns
-        runArr.append(run)
+
+        # Find run object in array and increase count
+        for run in runArr:
+            if run['tokens'] == tokens and run['dir'] == dir:
+                run['count'] += 1
 
     # Computer the heuristic value, agnostic of player
     def value(self):
@@ -24,8 +35,8 @@ class Heuristic():
         if self.winCode:
             return self.winVal * self.winCode
 
-        def getRunValue(t):
-            return self.runOfTwoVal if t[0] == 2 else self.runOfThreeVal
+        def getRunValue(run):
+            return run['count'] * (self.runOfTwoVal if run['tokens'] == 2 else self.runOfThreeVal)
 
         # Add up run values for each player multiplied by player number
         playerOneValue = self.playerOne * sum(map(getRunValue, self.playerOneRuns))
@@ -45,6 +56,23 @@ class Heuristic():
 
     # Return an explanation of this state's value to a particular player
     def explain(self, player, me = True, prefix = 'This is a'):
+
+        # Function to write out a list of runs
+        def writeRuns(runs):
+            def getRunStr(run):
+                if run['count'] == 1:
+                    return 'a %s run of %d' % (run['dir'], run['tokens'])
+                else:
+                    return '%d %s runs of %d' % (run['count'], run['dir'], run['tokens'])
+
+            runs = filter(lambda run: run['count'], runs) # Remove runs with 0 count
+            runStrs = map(getRunStr, runs)
+
+            if len(runStrs) < 2:
+                return ''.join(runStrs)
+
+            return ', '.join(runStrs[0:-1]) + ' and %s' % runStrs[-1]
+
         # Begin out message
         explanation = prefix + ' '
 
@@ -54,13 +82,30 @@ class Heuristic():
         if self.winCode:
             explanation += 'win' if self.winCode * self.player > 0 else 'loss'
             explanation += ' state for %s' % 'me' if me else 'you'
-            return explanation
+            return explanation + '.'
 
         # Otherwise, say if it's good, bad, or neutral, and why
         explanation += self.goodOrBad(player)
         explanation += ' state for %s' % 'me' if me else 'you'
 
-        return explanation
+        if goodOrBad == 'neutral':
+            return explanation + '.'
+
+        # List runs
+        if player == self.playerOne:
+            myRuns = self.playerOneRuns
+            yourRuns = self.playerTwoRuns
+        else:
+            myRuns = self.playerTwoRuns
+            yourRuns = self.playerOneRuns
+        explanation += ', because %s ' % 'I' if me else 'you'
+        explanation += 'only have ' if goodOrBad == 'bad' and writeRuns(myRuns) else 'have '
+        explanation += writeRuns(myRuns) or 'nothing'
+        explanation += ' and %s ' % 'you' if me else 'I'
+        explanation += 'only have ' if goodOrBad == 'good' and writeRuns(myRuns) else 'have '
+        explanation += writeRuns(yourRuns) or 'nothing'
+
+        return explanation + '.'
 
 
 # Given a group of four, calculate its value
@@ -76,7 +121,7 @@ def evaluateCluster(heuristic, state, cluster, type):
         playerInCluster = state.playerOne if playerOneCount else state.playerTwo
 
         if count == 2 or count == 3:
-            heuristic.addRun(playerInCluster, (count, type))
+            heuristic.addRun(playerInCluster, count, type)
 
 def calculateHeuristic(state):
     heuristic = Heuristic(state)
@@ -96,10 +141,10 @@ def calculateHeuristic(state):
         if topToken == col[top - 1]:
             # If we have a run of three and at least one space above it
             if top > 1 and col[top - 2] == topToken and state.boardHeight - top > 1:
-                heuristic.addRun(topToken, (3, 'vertical'))
+                heuristic.addRun(topToken, 3, 'vertical')
             # If we have a run of two and at least two spaces above it
             elif state.boardHeight - top > 2:
-                heuristic.addRun(topToken, (2, 'vertical'))
+                heuristic.addRun(topToken, 2, 'vertical')
 
     # Check for row runs
     # For every cluster of 4 where a win is eventually possible
