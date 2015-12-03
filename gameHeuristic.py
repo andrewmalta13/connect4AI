@@ -102,7 +102,7 @@ class Heuristic():
         explanation += 'only have ' if goodOrBad == 'bad' and writeRuns(myRuns) else 'have '
         explanation += writeRuns(myRuns) or 'nothing'
         explanation += ' and %s ' % 'you' if me else 'I'
-        explanation += 'only have ' if goodOrBad == 'good' and writeRuns(myRuns) else 'have '
+        explanation += 'only have ' if goodOrBad == 'good' and writeRuns(yourRuns) else 'have '
         explanation += writeRuns(yourRuns) or 'nothing'
 
         return explanation + '.'
