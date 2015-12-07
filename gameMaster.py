@@ -102,6 +102,8 @@ def playGame(w=7,h=6,ourGame=None):
             ourGame.exportBoard(False)
         if ourGame.winCode != 0:
             gameOver = ourGame.winCode
+            if ".4sav" in ourGame.exportName:
+                os.remove(ourGame.exportName)
             break
     print ourGame
     if gameOver == ourGame.playerOne:
