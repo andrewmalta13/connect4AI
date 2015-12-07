@@ -43,7 +43,7 @@ def menu():
                     height = None
             playGame(width,height)
         elif selected is 3:
-            loadGame = gameState.gameState().importBoard();
+            loadGame = gameState.gameState().importBoard(False);
             if loadGame is not None:
                 playGame(loadGame.boardWidth,loadGame.boardHeight,loadGame)
         elif selected is 4:
@@ -74,7 +74,7 @@ def playGame(w=7,h=6,ourGame=None):
                     return
                 if args.debug and nextMove is -2:
                     print "Game will be set to selected state"
-                    testGame = ourGame.importBoard()
+                    testGame = ourGame.importBoard(True)
                     if testGame is None:
                         print "Import Failed"
                     else:

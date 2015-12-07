@@ -121,17 +121,21 @@ class gameState:
         return bcolors.GREEN + '-' + bcolors.ENDC
 
     def exportBoard(self,isLog):
-        if self.exportName is None:
+        if self.exportName is None and isLog:
             fileName = raw_input("What would you like to name your save file?\n")
-            fileName += ".4log" if isLog else ".4sav" 
-            self.exportName =  fileName
+            self.exportName =  fileName + ".4log"
+        elif self.exportName is None and not isLog:
+            self.exportName = "connect4.sav"
         f = open(self.exportName, 'a' if isLog else 'w')
         pickle.dump(self,f)
 
-    def importBoard(self):
+    def importBoard(self,isLog):
         thisBoard = None
         correctState = 0
-        fileName = raw_input("What is the name of the file?\n")
+        if isLog:
+            fileName = raw_input("What is the name of the file?\n")
+        else:
+            fileName = "connect4.sav"
         f = open(fileName,'r')
         while correctState is 0:
             try:
