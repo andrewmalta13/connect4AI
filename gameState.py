@@ -35,6 +35,7 @@ class gameState:
         self.heuristicValue = 0
         self.children = [None] * self.boardWidth
         self.exportName = None
+
     def __str__(self):
         retString = "\n\n\t"
         for i in range(0 , self.boardWidth):
@@ -50,6 +51,7 @@ class gameState:
         retString += '\n'
         os.system('cls' if os.name == 'nt' else 'clear')
         return retString
+
     def getState(self,colNum):
         if self.children[colNum] is None:
             newState = copy.copy(self)
@@ -61,6 +63,7 @@ class gameState:
                 return err
             self.children[colNum] = newState
         return self.children[colNum]
+
     # returns 0 for success, the playernum of the winner, or a negative for an error
     def insert(self, colNum):
         if not isinstance( colNum, int ) or colNum > self.boardWidth:
@@ -71,26 +74,21 @@ class gameState:
             return -2
         if self.numTokens >= self.boardWidth * self.boardHeight:
             return self.numPlayers + 1
+
         rowNum = self.heights[colNum] 
         self.board[colNum][self.heights[colNum]] = self.turn
         self.heights[colNum] += 1
         self.numTokens += 1;
-        
-        
-
-
         winVal = self.checkWin([colNum,rowNum])
         self.heuristic = calculateHeuristic(self)
         self.heuristicValue = self.heuristic.value()
         self.turn = self.playerTwo if self.turn == self.playerOne else self.playerOne
-
         return winVal
 
     def checkWin(self,checkPosition):
         for adjustPair in CHECKARRAY:
             counter = 0
             currentPosition = map(operator.add,checkPosition,map(operator.mul,adjustPair,[-3,-3]))
-            
             for val in range(7):
                 if currentPosition[0] < 0 or currentPosition[0] >= self.boardWidth or currentPosition[1] < 0 or currentPosition[1] >= self.boardHeight:
                     currentPosition = map(operator.add,currentPosition,adjustPair)
