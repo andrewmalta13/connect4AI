@@ -3,17 +3,19 @@ import aiplayer
 import sys
 import argparse
 import os
+import signal
 from math import *
 
 # setup with command arguments
 parser = argparse.ArgumentParser()
-parser.add_argument("--width", type=int, choices=range(4,10), default=7, help="board width")
-parser.add_argument("--height", type=int, choices=range(4,10), default=6, help="board height")
+
 parser.add_argument("--debug", action="store_true", help="print additional information for debugging")
 parser.add_argument("--explain", action="store_true", help="explain AI decisions")
 args = parser.parse_args()
 
-
+def sigIntHandler(signum,frame):
+    print "\nThanks for playing!\n"
+    sys.exit(1)
 
 def menu():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -21,27 +23,39 @@ def menu():
         print "Welcome!"
         print "1: Start standard game"
         print "2: Start custom sized game"
-        print "3: Exit"
+        print "3: Load Game"
+        print "4: Exit"
         selected = input("Which would you like? ")
         if selected is 1:
             playGame()
         elif selected is 2:
             width = None
             while not isinstance(width,int):
-                width = input("How wide should the board be? ")
+                width = input("How wide should the board be? (4-10) ")
+                if width not in range(4,10):
+                    print "Invalid width"
+                    width = None
             height = None
             while not isinstance(height,int):
-                height = input ("How tall should the board be? ")
+                height = input ("How tall should the board be? (4-10) ")
+                if height not in range(4,10):
+                    print "Invalid height"
+                    height = None
             playGame(width,height)
         elif selected is 3:
+            loadGame = gameState.gameState().importBoard();
+            if loadGame is not None:
+                playGame(loadGame.boardWidth,loadGame.boardHeight,loadGame)
+        elif selected is 4:
             print "Thanks for playing!"
             sys.exit(1)
         else:
             print "Invalid option"
 
-def playGame(w=7,h=6):
+def playGame(w=7,h=6,ourGame=None):
     gameOver = False
-    ourGame = gameState.gameState(w, h)
+    if ourGame is None:
+        ourGame = gameState.gameState(w, h)
     aiPlayer = aiplayer.AiPlayer(int(9 / log(w)), args.debug, args.explain)
     aiLastMove = None
     while(not gameOver and not ourGame.checkTie()):
@@ -51,7 +65,6 @@ def playGame(w=7,h=6):
             while (nextMove < 0):
                 if aiLastMove is not None:
                     print "AI played", aiLastMove
-
                     if aiPlayer.explain:
                         print ourGame.heuristic.explain(1)
                         
@@ -84,7 +97,9 @@ def playGame(w=7,h=6):
             aiLastMove = aiPlayer.makeMove(ourGame)
             ourGame = ourGame.getState(aiLastMove)
         if args.debug:
-            ourGame.exportBoard()
+            ourGame.exportBoard(True)
+        else:
+            ourGame.exportBoard(False)
         if ourGame.winCode != 0:
             gameOver = ourGame.winCode
             break
@@ -98,4 +113,5 @@ def playGame(w=7,h=6):
 
 
 if __name__ == "__main__":
+    signal.signal(signal.SIGINT,sigIntHandler)
     menu()
