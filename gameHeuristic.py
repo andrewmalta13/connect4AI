@@ -80,7 +80,7 @@ class Heuristic():
 
         # If it's a win or loss state, state that and return
         if self.winCode:
-            explanation += 'win' if self.winCode * self.player > 0 else 'loss'
+            explanation += 'win' if self.winCode * player > 0 else 'loss'
             explanation += ' state for %s' % 'me' if me else 'you'
             return explanation + '.'
 

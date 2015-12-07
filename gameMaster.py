@@ -56,7 +56,7 @@ def playGame(w=7,h=6,ourGame=None):
     gameOver = False
     if ourGame is None:
         ourGame = gameState.gameState(w, h)
-    aiPlayer = aiplayer.AiPlayer(int(9 / log(w)), args.debug, args.explain)
+    aiPlayer = aiplayer.AiPlayer(int(9 / log(w)), args.debug, args.explain, ourGame.playerTwo)
     aiLastMove = None
     while(not gameOver and not ourGame.checkTie()):
         print ourGame
@@ -65,8 +65,6 @@ def playGame(w=7,h=6,ourGame=None):
             while (nextMove < 0):
                 if aiLastMove is not None:
                     print "AI played", aiLastMove
-                    if aiPlayer.explain:
-                        print ourGame.heuristic.explain(1)
                         
                 nextMove = input("Player: Which column would you like to play a token in? ")
                 if args.debug and nextMove is -1:
