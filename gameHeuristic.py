@@ -82,14 +82,14 @@ class Heuristic():
         if self.winCode:
             explanation += 'win' if self.winCode * player > 0 else 'loss'
             explanation += ' state for %s' % 'me' if me else 'you'
-            return explanation + '.'
+            return explanation
 
         # Otherwise, say if it's good, bad, or neutral, and why
         explanation += self.goodOrBad(player)
         explanation += ' state for %s' % 'me' if me else 'you'
 
         if goodOrBad == 'neutral':
-            return explanation + '.'
+            return explanation
 
         # List runs
         if player == self.playerOne:
@@ -105,7 +105,7 @@ class Heuristic():
         explanation += 'only have ' if goodOrBad == 'good' and writeRuns(yourRuns) else 'have '
         explanation += writeRuns(yourRuns) or 'nothing'
 
-        return explanation + '.'
+        return explanation
 
 
 # Given a group of four, calculate its value

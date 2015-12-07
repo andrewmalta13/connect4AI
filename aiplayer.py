@@ -89,21 +89,21 @@ class Choice(object):
 
         if self.explain:
             decisionVal = self.gameState.getState(self.decision).heuristicValue
-            prefix = "This is a"
-            suffix = ""
+            prefix = "I chose this move which results in a"
+            suffix = "."
             if (filter(lambda x: abs(x) != gameHeuristic.Heuristic.winVal,
              self.miniMaxArray[:self.decision] + self.miniMaxArray[self.decision + 1:]) == []):
-                self.explanation =  "I chose this move because if I didn't you would win."
+                self.explanation =  "I chose this move to block you from winning."
                 return
             elif (decisionVal == gameHeuristic.Heuristic.winVal):
                 self.explanation = "I chose this move because now there is no way for me to lose."
                 return
             elif (decisionVal < 0):
-                prefix = "Despite the fact that this state is"
-                suffix = " However, all of my other options were worse and would either let you win or give you a better state." 
+                prefix = "Despite the fact that this move puts me in a"
+                suffix = ", all of my other options were worse and would either let you win or put you in a better state." 
             elif (decisionVal == 0):
-                prefix = "I chose this state even though it is"
-                suffix = " However, I didn't have a better option to consider."
+                self.explanation =  "I chose this move because it puts me in a neutral state and all my other options were the same or worse."
+                return
 
             self.explanation = self.gameState.getState(self.decision).heuristic.explain(self.playerNumber, True, prefix) + suffix
 
