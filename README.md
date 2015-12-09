@@ -1,6 +1,6 @@
 # connect4AI
 
-A project for Yale University CPSC 458 - Automated Decision Systems by [Andrew Malta](https://github.com/andrewmalta13), [Julian Rosenblum](https://julianrosenblum.com), and [Ted Tuckman](https://github.com/Aurren).
+A project for Yale University CPSC 458 - Automated Decision Systems by [Andrew Malta](https://github.com/andrewmalta13), [Julian Rosenblum](https://julianrosenblum.com), and [Ted Tuckman](https://github.com/TedTuckman).
 
 ## Introduction
 
@@ -12,7 +12,11 @@ The project can be downloading by running the command "git clone https://github.
 	--explain to see the AI's explanation for the move just made
 
 ## The Minimax Algorithm
-(TBD)
+Someone playing a turn based game is often as good as how many moves the can look ahead, maximizing their postion in the game while
+minimizing the oppenent's.  Connect 4 is a zero sum game, meaning a good state for player 1 is neccesarily a bad state for player 2. 
+This fact makes minimax a fantastic algorithm for deciding which move is best, looking multiple moves beyond the current move.  That
+being said, connect 4's branching factor of the game tree (on a regular board) makes it computationally infeasible to explore more than
+5 to 7 moves ahead. While exploring 5 to 7 moves ahead is somewhat quick, we decided to implement Alpha-Beta pruning in our implemenation of Mini-Max to not explore moves that we would never take given our current options.  
 
 ## The Heuristic Function
 If computing power were an unlimited resource, the Minimax algorithm would only need to know if a particular state is a win-state for some player to calculate the steps for optimal play by traversing the entire game tree.  However, in practice, traversing the entire game tree is too slow and less consistent with how humans make decisions.  Instead, we decided there needs to be a more mature way of calculating the value of a particular non-win state for a player.  Since the end goal of the system is to create a run of four, we decided to award value for reaching intermediate goals of runs of two or three.  We defined a run of `n` to be any column with `n` tokens of a particular player on top, or any horizontal or diagonal cluster of four spaces with `n` tokens of a particular player and the rest of the spaces empty.  In other words, a run of `n` is a unique group of four that could eventually become a win for a particular player and currently has `n` of that player's tokens.  If there are multiple groups of four for a particular `n` tokens where this is the case, they are counted as multiple runs.  This strategy takes into account the increased benefit of having "open" runs.  We assigned the value of a run of three to be twice that of a run of two.  The heuristic value for a particular player is then equal to the value of his/her runs minus the value of his/her opponent's runs.  This heuristic function allows us to make more explainable decisions and not have to traverse as much of the game tree.
