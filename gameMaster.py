@@ -32,13 +32,13 @@ def menu():
             width = None
             while not isinstance(width,int):
                 width = input("How wide should the board be? (4-10) ")
-                if width not in range(4,10):
+                if width not in range(4,11):
                     print "Invalid width"
                     width = None
             height = None
             while not isinstance(height,int):
                 height = input ("How tall should the board be? (4-10) ")
-                if height not in range(4,10):
+                if height not in range(4,11):
                     print "Invalid height"
                     height = None
             playGame(width,height)
