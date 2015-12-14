@@ -45,7 +45,10 @@ def menu():
         elif selected is 3:
             loadGame = gameState.gameState().importBoard(False);
             if loadGame is not None:
-                playGame(loadGame.boardWidth,loadGame.boardHeight,loadGame)
+                if loadGame.winCode is 0:
+                    playGame(loadGame.boardWidth,loadGame.boardHeight,loadGame)
+                else:
+                    print "That game has already ended!"
         elif selected is 4:
             print "Thanks for playing!"
             sys.exit(1)
