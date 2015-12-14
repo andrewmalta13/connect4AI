@@ -60,14 +60,17 @@ def playGame(w=7,h=6,ourGame=None):
     if ourGame is None:
         ourGame = gameState.gameState(w, h)
     aiPlayer = aiplayer.AiPlayer(int(9 / log(w)), args.debug, args.explain, ourGame.playerTwo)
-    aiLastMove = None
+    aiChoice = None
     while(not gameOver and not ourGame.checkTie()):
         print ourGame
         if ourGame.turn == ourGame.playerOne:
             nextMove = None
             while (nextMove < 0):
-                if aiLastMove is not None:
-                    print "AI played", aiLastMove
+                if aiChoice is not None:
+                    print "AI played", aiChoice.decision
+
+                    if aiPlayer.explain:
+                        print aiChoice.explanation
                         
                 nextMove = input("Player: Which column would you like to play a token in? ")
                 if args.debug and nextMove is -1:
@@ -95,8 +98,8 @@ def playGame(w=7,h=6,ourGame=None):
                     print "Invalid move, please try again"
         else:
             print "AI is thinking ..."
-            aiLastMove = aiPlayer.makeMove(ourGame)
-            ourGame = ourGame.getState(aiLastMove)
+            aiChoice = aiPlayer.makeMove(ourGame)
+            ourGame = ourGame.getState(aiChoice.decision)
         if args.debug:
             ourGame.exportBoard(True)
         else:

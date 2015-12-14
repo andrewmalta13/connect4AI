@@ -50,10 +50,7 @@ class AiPlayer(object):
             print moveVals
             print "Chose %d" % choice.decision
 
-        if self.explain:
-            print choice.explanation
-
-        return choice.decision
+        return choice
 
 
 class Choice(object):

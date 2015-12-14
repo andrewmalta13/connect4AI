@@ -7,7 +7,6 @@ A project for Yale University CPSC 458 - Automated Decision Systems by [Andrew M
 Our goal was to create an AI for the popular board game [Connect Four](https://en.wikipedia.org/wiki/Connect_Four) that could beat most human players but also make and explain its decisions in a way that humans can understand.  We accomplished this by creating a goal-based system that employs a version of the [Minimax](https://en.wikipedia.org/wiki/Minimax) algorithm to make decisions.
 
 ## Running the Program
-* `git clone https://github.com/andrewmalta13/connect4AI`
 * `python gameMaster.py [--explain] [--debug]`
 	* `--explain` prints the AI's explanation for each move that it makes
 	* `--debug` runs the game in debug mode, providing more specific save functionality and printing additional information
